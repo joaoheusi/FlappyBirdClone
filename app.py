@@ -17,7 +17,7 @@ BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','base.
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs','bg.png')))
 
 
-STAT_FONT = pygame.font.SysFont('comicsans', 50)
+STAT_FONT = pygame.font.SysFont('Arial', 50)
 
 class Bird:
     IMGS = BIRD_IMGS
@@ -88,7 +88,7 @@ class Bird:
 
 
 class Pipe:
-    GAP = 200
+    GAP = 170
     VEL = 5
 
 
@@ -104,7 +104,7 @@ class Pipe:
         self.set_height()
 
     def set_height(self):
-        self.height = random.randrange(50,450)
+        self.height = random.randrange(50,500)
         self.top = self.height - self.PIPE_TOP.get_height()
         self.bottom = self.height + self.GAP
 
@@ -212,7 +212,7 @@ def main(genomes,config):
             bird.move()
             ge[x].fitness += 0.1
 
-            output = nets[x].activate((bird.y,abs(bird.y - pipes[pipe_ind].height), abs(bird.y -pipes[pipe_ind].bottom)))
+            output = nets[x].activate((bird.y,abs(bird.y - pipes[pipe_ind].top), abs(bird.x - pipes[pipe_ind].x), abs(bird.y -pipes[pipe_ind].bottom)))
             
             
             if output[0] > 0.5:
@@ -239,7 +239,7 @@ def main(genomes,config):
         if add_pipe:
             score += 1
             for g in ge:
-                g.fitness += 5
+                g.fitness += 10
             pipes.append(Pipe(700))
 
         for r in rem:
